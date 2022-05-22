@@ -1,5 +1,4 @@
-#ifndef Mahony_h
-#define Mahony_h
+#pragma once
 
 #define sampleFreq 100.0f // sample frequency in Hz
 #define twoKpDef (2.0f * 0.5f) // 2 * proportional gain
@@ -16,13 +15,15 @@ private:
 
 public:
     Mahony();
-    Mahony(float q0, float q1, float q2, float q3, float twoKp=twoKpDef, float twoKi=twoKiDef);
+    Mahony(float q0, float q1, float q2, float q3, float twoKp = twoKpDef, float twoKi = twoKiDef);
     ~Mahony();
 
     void update(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
     void update(float gx, float gy, float gz, float ax, float ay, float az);
+
+    float getRoll();
+    float getPitch();
+    float getYaw();
 };
 
 } // namespace AHRS
-
-#endif

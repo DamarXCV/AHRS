@@ -1,5 +1,4 @@
-#ifndef Madgwick_h
-#define Madgwick_h
+#pragma once
 
 #define sampleFreq 100.0f // sample frequency in Hz
 #define betaDef 0.1f // 2 * proportional gain
@@ -18,8 +17,10 @@ public:
 
     void update(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
     void update(float gx, float gy, float gz, float ax, float ay, float az);
+
+    float getRoll();
+    float getPitch();
+    float getYaw();
 };
 
 } // namespace AHRS
-
-#endif

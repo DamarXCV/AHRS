@@ -1,10 +1,16 @@
-#ifndef Util_h
-#define Util_h
+#pragma once
 
 namespace AHRS {
 
-// Fast inverse square-root
-// See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
+const float radToDegFactor = 0.0174532925199433f;
+const float degToRadFactor = 57.29577951308233f;
+
+/**
+ * @brief Fast inverse square-root
+ * See: http://en.wikipedia.org/wiki/Fast_inverse_square_root
+ * @param x
+ * @return (float)
+ */
 float invSqrt(float x)
 {
     float halfx = 0.5f * x;
@@ -17,5 +23,3 @@ float invSqrt(float x)
 }
 
 } // namespace AHRS
-
-#endif

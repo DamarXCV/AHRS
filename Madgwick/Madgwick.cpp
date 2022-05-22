@@ -5,20 +5,51 @@
 
 namespace AHRS {
 
+/**
+ * @brief Construct a new Madgwick object
+ *
+ */
 Madgwick::Madgwick() { }
 
+/**
+ * @brief Construct a new Madgwick object
+ *
+ * @param q0 w component of the initial quaternion
+ * @param q1 x component of the initial quaternion
+ * @param q2 y component of the initial quaternion
+ * @param q3 z component of the initial quaternion
+ * @param beta proportional gain
+ */
 Madgwick::Madgwick(float q0, float q1, float q2, float q3, float beta)
+    : q0(q0)
+    , q1(q1)
+    , q2(q2)
+    , q3(q3)
+    , beta(beta)
 {
-    q0 = q0;
-    q1 = q1;
-    q2 = q2;
-    q3 = q3;
-
-    beta = beta;
 }
 
+/**
+ * @brief Destroy the Madgwick object
+ *
+ */
 Madgwick::~Madgwick() { }
 
+/**
+ * @brief Updates the Madgwick filter using gyroscope, accelometer and magnetometer.
+ * The unit of the gyroscope NEEDS to be in rad/s! While the units of the other sensors do not matter,
+ * because the values get scaled by the algorithm.
+ *
+ * @param gx x value of gyroscope in rad/s
+ * @param gy y value of gyroscope in rad/s
+ * @param gz z value of gyroscope in rad/s
+ * @param ax x value of accelometer in m/s²
+ * @param ay y value of accelometer in m/s²
+ * @param az z value of accelometer in m/s²
+ * @param mx x value of magnetometer in uT
+ * @param my y value of magnetometer in uT
+ * @param mz z value of magnetometer in uT
+ */
 void Madgwick::update(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz)
 {
     float recipNorm;
@@ -116,6 +147,18 @@ void Madgwick::update(float gx, float gy, float gz, float ax, float ay, float az
     q3 *= recipNorm;
 }
 
+/**
+ * @brief Updates the Madgwick filter using gyroscope and accelometer.
+ * The unit of the gyroscope NEEDS to be in rad/s! While the unit of the accelometer do not matter,
+ * because the values get scaled by the algorithm.
+ *
+ * @param gx x value of gyroscope in rad/s
+ * @param gy y value of gyroscope in rad/s
+ * @param gz z value of gyroscope in rad/s
+ * @param ax x value of accelometer in m/s²
+ * @param ay y value of accelometer in m/s²
+ * @param az z value of accelometer in m/s²
+ */
 void Madgwick::update(float gx, float gy, float gz, float ax, float ay, float az)
 {
     float recipNorm;
@@ -184,5 +227,26 @@ void Madgwick::update(float gx, float gy, float gz, float ax, float ay, float az
     q2 *= recipNorm;
     q3 *= recipNorm;
 }
+
+/**
+ * @brief Calculates and returns the roll angle in radiant
+ *
+ * @return (float) roll angle in radiant
+ */
+float Madgwick::getRoll() { return atan2f(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2 * q2); }
+
+/**
+ * @brief Calculates and returns the pitch angle in radiant
+ *
+ * @return (float) pitch angle in radiant
+ */
+float Madgwick::getPitch() { return asinf(-2.0f * (q1 * q3 - q0 * q2)); }
+
+/**
+ * @brief Calculates and returns the yaw angle in radiant
+ *
+ * @return (float) yaw angle in radiant
+ */
+float Madgwick::getYaw() { return atan2f(q1 * q2 + q0 * q3, 0.5f - q2 * q2 - q3 * q3); }
 
 } // namespace AHRS
