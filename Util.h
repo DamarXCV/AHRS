@@ -2,8 +2,8 @@
 
 namespace AHRS {
 
-const float radToDegFactor = 0.0174532925199433f;
-const float degToRadFactor = 57.29577951308233f;
+const float degToRadFactor = 0.0174532925199433f;
+const float radToDegFactor = 57.29577951308233f;
 
 /**
  * @brief Fast inverse square-root
