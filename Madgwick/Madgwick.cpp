@@ -1,17 +1,3 @@
-//=====================================================================================================
-// Madgwick.c
-//=====================================================================================================
-//
-// Implementation of Madgwick's IMU and AHRS algorithms.
-// See: http://www.x-io.co.uk/node/8#open_source_ahrs_and_imu_algorithms
-//
-// Date			Author          Notes
-// 29/09/2011	SOH Madgwick    Initial release
-// 02/10/2011	SOH Madgwick	Optimised for reduced CPU load
-// 19/02/2012	SOH Madgwick	Magnetometer measurement is normalised
-//
-//=====================================================================================================
-
 //---------------------------------------------------------------------------------------------------
 // Header files
 
@@ -41,7 +27,7 @@ float invSqrt(float x);
 //---------------------------------------------------------------------------------------------------
 // AHRS algorithm update
 
-void MadgwickAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz) {
+void MadgwickUpdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz) {
 	float recipNorm;
 	float s0, s1, s2, s3;
 	float qDot1, qDot2, qDot3, qDot4;
@@ -50,7 +36,7 @@ void MadgwickAHRSupdate(float gx, float gy, float gz, float ax, float ay, float 
 
 	// Use IMU algorithm if magnetometer measurement invalid (avoids NaN in magnetometer normalisation)
 	if((mx == 0.0f) && (my == 0.0f) && (mz == 0.0f)) {
-		MadgwickAHRSupdateIMU(gx, gy, gz, ax, ay, az);
+		MadgwickUpdate(gx, gy, gz, ax, ay, az);
 		return;
 	}
 
@@ -140,7 +126,7 @@ void MadgwickAHRSupdate(float gx, float gy, float gz, float ax, float ay, float 
 //---------------------------------------------------------------------------------------------------
 // IMU algorithm update
 
-void MadgwickAHRSupdateIMU(float gx, float gy, float gz, float ax, float ay, float az) {
+void MadgwickUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 	float recipNorm;
 	float s0, s1, s2, s3;
 	float qDot1, qDot2, qDot3, qDot4;
@@ -221,7 +207,3 @@ float invSqrt(float x) {
 	y = y * (1.5f - (halfx * y * y));
 	return y;
 }
-
-//====================================================================================================
-// END OF CODE
-//====================================================================================================

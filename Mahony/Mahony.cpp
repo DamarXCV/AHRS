@@ -1,16 +1,3 @@
-//=====================================================================================================
-// Mahony.c
-//=====================================================================================================
-//
-// Madgwick's implementation of Mayhony's AHRS algorithm.
-// See: http://www.x-io.co.uk/node/8#open_source_ahrs_and_imu_algorithms
-//
-// Date			Author			Notes
-// 29/09/2011	SOH Madgwick    Initial release
-// 02/10/2011	SOH Madgwick	Optimised for reduced CPU load
-//
-//=====================================================================================================
-
 //---------------------------------------------------------------------------------------------------
 // Header files
 
@@ -43,7 +30,7 @@ float invSqrt(float x);
 //---------------------------------------------------------------------------------------------------
 // AHRS algorithm update
 
-void MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz) {
+void MahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz) {
 	float recipNorm;
     float q0q0, q0q1, q0q2, q0q3, q1q1, q1q2, q1q3, q2q2, q2q3, q3q3;  
 	float hx, hy, bx, bz;
@@ -53,7 +40,7 @@ void MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az
 
 	// Use IMU algorithm if magnetometer measurement invalid (avoids NaN in magnetometer normalisation)
 	if((mx == 0.0f) && (my == 0.0f) && (mz == 0.0f)) {
-		MahonyAHRSupdateIMU(gx, gy, gz, ax, ay, az);
+		MahonyUpdate(gx, gy, gz, ax, ay, az);
 		return;
 	}
 
@@ -147,7 +134,7 @@ void MahonyAHRSupdate(float gx, float gy, float gz, float ax, float ay, float az
 //---------------------------------------------------------------------------------------------------
 // IMU algorithm update
 
-void MahonyAHRSupdateIMU(float gx, float gy, float gz, float ax, float ay, float az) {
+void MahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az) {
 	float recipNorm;
 	float halfvx, halfvy, halfvz;
 	float halfex, halfey, halfez;
@@ -226,7 +213,3 @@ float invSqrt(float x) {
 	y = y * (1.5f - (halfx * y * y));
 	return y;
 }
-
-//====================================================================================================
-// END OF CODE
-//====================================================================================================
