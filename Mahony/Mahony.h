@@ -1,17 +1,28 @@
-#ifndef MahonyAHRS_h
-#define MahonyAHRS_h
+#ifndef Mahony_h
+#define Mahony_h
 
-//----------------------------------------------------------------------------------------------------
-// Variable declaration
+#define sampleFreq 100.0f // sample frequency in Hz
+#define twoKpDef (2.0f * 0.5f) // 2 * proportional gain
+#define twoKiDef (2.0f * 0.0f) // 2 * integral gain
 
-extern volatile float twoKp;			// 2 * proportional gain (Kp)
-extern volatile float twoKi;			// 2 * integral gain (Ki)
-extern volatile float q0, q1, q2, q3;	// quaternion of sensor frame relative to auxiliary frame
+namespace AHRS {
 
-//---------------------------------------------------------------------------------------------------
-// Function declarations
+class Mahony {
+private:
+    volatile float twoKp = twoKpDef; // 2 * proportional gain (Kp)
+    volatile float twoKi = twoKiDef; // 2 * integral gain (Ki)
+    volatile float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f; // quaternion of sensor frame relative to auxiliary frame
+    volatile float integralFBx = 0.0f, integralFBy = 0.0f, integralFBz = 0.0f; // integral error terms scaled by Ki
 
-void MahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
-void MahonyUpdate(float gx, float gy, float gz, float ax, float ay, float az);
+public:
+    Mahony();
+    Mahony(float q0, float q1, float q2, float q3, float twoKp=twoKpDef, float twoKi=twoKiDef);
+    ~Mahony();
+
+    void update(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
+    void update(float gx, float gy, float gz, float ax, float ay, float az);
+};
+
+} // namespace AHRS
 
 #endif

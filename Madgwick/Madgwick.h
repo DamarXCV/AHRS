@@ -1,16 +1,25 @@
 #ifndef Madgwick_h
 #define Madgwick_h
 
-//----------------------------------------------------------------------------------------------------
-// Variable declaration
+#define sampleFreq 100.0f // sample frequency in Hz
+#define betaDef 0.1f // 2 * proportional gain
 
-extern volatile float beta;				// algorithm gain
-extern volatile float q0, q1, q2, q3;	// quaternion of sensor frame relative to auxiliary frame
+namespace AHRS {
 
-//---------------------------------------------------------------------------------------------------
-// Function declarations
+class Madgwick {
+private:
+    volatile float beta = betaDef; // algorithm gain
+    volatile float q0 = 1.0f, q1 = 0.0f, q2 = 0.0f, q3 = 0.0f; // quaternion of sensor frame relative to auxiliary frame
 
-void MadgwickUpdate(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
-void MadgwickUpdate(float gx, float gy, float gz, float ax, float ay, float az);
+public:
+    Madgwick();
+    Madgwick(float q0, float q1, float q2, float q3, float beta=betaDef);
+    ~Madgwick();
+
+    void update(float gx, float gy, float gz, float ax, float ay, float az, float mx, float my, float mz);
+    void update(float gx, float gy, float gz, float ax, float ay, float az);
+};
+
+} // namespace AHRS
 
 #endif
