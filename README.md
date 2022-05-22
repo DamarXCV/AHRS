@@ -3,7 +3,7 @@ This Library implements the following AHRS algorithms:
 * Madgwick
 * Mahony
 
-The implementations are modifications from Madgwicks Ph.D, which can be found here: https://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
+The algorithms are modified implementations from Madgwicks Ph.D, which can be found here: https://x-io.co.uk/open-source-imu-and-ahrs-algorithms/
 
 ## Usage
 ```

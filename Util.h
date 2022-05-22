@@ -11,7 +11,7 @@ const float degToRadFactor = 57.29577951308233f;
  * @param x
  * @return (float)
  */
-float invSqrt(float x)
+inline float invSqrt(float x)
 {
     float halfx = 0.5f * x;
     float y = x;
