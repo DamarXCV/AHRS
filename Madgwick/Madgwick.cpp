@@ -240,7 +240,7 @@ float Madgwick::getRoll() { return atan2f(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2
  *
  * @return (float) pitch angle in radiant
  */
-float Madgwick::getPitch() { return asinf(-2.0f * (q1 * q3 - q0 * q2)); }
+float Madgwick::getPitch() { return asinf(-2.0f * (q1 * q3 - q0 * q2)) * -1; }
 
 /**
  * @brief Calculates and returns the yaw angle in radiant

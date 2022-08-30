@@ -7,7 +7,7 @@ namespace AHRS {
 
 /**
  * @brief Construct a new Mahony object
- * 
+ *
  */
 Mahony::Mahony() { }
 
@@ -33,7 +33,7 @@ Mahony::Mahony(float q0, float q1, float q2, float q3, float twoKp, float twoKi)
 
 /**
  * @brief Destroy the Mahony object
- * 
+ *
  */
 Mahony::~Mahony() { }
 
@@ -239,7 +239,7 @@ float Mahony::getRoll() { return atan2f(q0 * q1 + q2 * q3, 0.5f - q1 * q1 - q2 *
  *
  * @return (float) pitch angle in radiant
  */
-float Mahony::getPitch() { return asinf(-2.0f * (q1 * q3 - q0 * q2)); }
+float Mahony::getPitch() { return asinf(-2.0f * (q1 * q3 - q0 * q2)) - 1; }
 
 /**
  * @brief Calculates and returns the yaw angle in radiant
